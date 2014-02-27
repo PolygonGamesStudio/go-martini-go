@@ -6,24 +6,22 @@ import (
 
 func main() {
 	m := martini.Classic()
-	m.Get("/", func() string {
-		return "Hello world - GET \n"
-	})
 
-	m.Post("/", func() string {
-		return "Hello world - POST \n"
-		// create something
-	})
+	// TODO: регулярку для ID
+	m.Get("/place", getPlaceDetail)
+	m.Get("/favorites", getFavoritsList)
+	m.Get("/route/{id}", getRouteDetail)
+	m.Get("/history/", getHistoryList)
 
-	m.Put("/", func() string {
-		return "Hello world - PUT \n"
-		// replace something
-	})
+	m.Post("/ratio/{id}", postRatioDetail)
 
-	m.Delete("/", func() string {
-		return "Hello world - DELETE \n"
-		// destroy something
-	})
+	m.Delete("/user/{id}", deleteUser)
+
+	m.Put("/ratio/{id}", putRation)
+	m.Put("/user/{id}", putUser)
+
+	m.Get("/logout", getLogout)
+	m.Post("/login", getLogin)
 
 	m.Run()
 }
