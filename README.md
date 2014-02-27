@@ -1,11 +1,13 @@
 go-martini-go
 =============
 
-*To run server type:*
+**To run server type:**
 
 `$ go get github.com/codegangsta/martini`
 
-*Setting $GOPATH*
+**Setting $GOPATH**
+```
+$ export GOPATH=$HOME/go
 
-`$ export GOPATH=$HOME/go`
-`$ export PATH=$PATH:$GOPATH/bin`
+$ export PATH=$PATH:$GOPATH/bin
+```
