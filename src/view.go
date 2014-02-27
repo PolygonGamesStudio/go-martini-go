@@ -1,5 +1,9 @@
 package main
 
+import (
+	"github.com/codegangsta/martini"
+)
+
 func getRouteDetail(params martini.Params) string {
 	return "getRouteDetail " + params["id"]
 }

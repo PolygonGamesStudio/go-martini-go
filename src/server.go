@@ -7,7 +7,6 @@ import (
 func main() {
 	m := martini.Classic()
 
-	// TODO: регулярку для ID
 	m.Get("/place", getPlaceDetail)
 	m.Get("/favorites", getFavoritesList)
 	m.Get("/route/:id", getRouteDetail)
