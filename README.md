@@ -5,3 +5,7 @@ go-martini-go
 
 `$ go get github.com/codegangsta/martini`
 
+*Setting $GOPATH*
+
+`$ export GOPATH=$HOME/go`
+`$ export PATH=$PATH:$GOPATH/bin`
