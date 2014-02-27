@@ -1,4 +1,5 @@
 go-martini-go
 =============
 
-Build a RESTful API with Martini
+To run server type:
+go get github.com/codegangsta/martini
