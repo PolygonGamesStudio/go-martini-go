@@ -1,11 +1,24 @@
 package main
 
 import (
+	"encoding/json"
 	"github.com/codegangsta/martini"
+	"log"
 )
 
-func getRouteDetail(params martini.Params) string {
-	return "getRouteDetail " + params["id"]
+func getRouteDetail(params martini.Params) []byte {
+	type Message struct {
+		Id   string
+		Name string
+		Body string
+		Time int64
+	}
+	m := Message{params["id"], "Alice", "Hello", 1294706395881547000}
+	b, err := json.Marshal(m)
+	if err != nil {
+		log.Fatal(err)
+	}
+	return b
 }
 func getFavoritesList() string {
 	return "getFavoritsList "
