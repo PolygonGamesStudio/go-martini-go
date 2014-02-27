@@ -10,13 +10,13 @@ $ export GOPATH=$HOME/go
 $ export PATH=$PATH:$GOPATH/bin
 ```
 
-**Download dependens **
+**Download dependens**
 ```
 $ go get github.com/codegangsta/martini
 $ go get github.com/coopernurse/gorp
 ```
 
-** run **
+**run**
 ```
 $ go run src/server.go src/view.go
 ```
