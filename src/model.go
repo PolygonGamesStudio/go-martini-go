@@ -6,11 +6,11 @@ type Place struct {
 	PriceCategory   int64
 	Logo            string
 	EndPointAddress string
-	Creator
-	CoordinatesGPS string
-	IsActive       bool
-	Route          string
-	Category
+	CreatorId       int64
+	CoordinatesGPS  string
+	IsActive        bool
+	Route           string
+	CategoryId      int64
 }
 
 type Creator struct {
@@ -34,12 +34,12 @@ type Category struct {
 	Id               int64
 	Name             string
 	BriefDescription string
-	logo             string
+	Logo             string
 }
 
 type UserPlaceMTM struct {
-	User
-	Place
+	UserId   int64
+	PlaceId  int64
 	Ratio    int8
 	Feedback string
 }
