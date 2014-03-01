@@ -60,35 +60,26 @@ func getFavoritesList() string {
 	return "getFavoritsList "
 }
 
-func getPlaceDetail(params martini.Params) string {
+func getPlaceDetail(params martini.Params) []byte {
 	dbmap := initDb()
 	defer dbmap.Db.Close()
-	myPlace := Place{}
-	log.Println("111")
 
-	// myPlace, err := dbmap.Get(Place{}, params["id"])
-	obj, err := dbmap.Get(myPlace, 1)
-	log.Println("222")
+	obj, err := dbmap.Get(Place{}, params["id"])
+	myPlace := obj.(*Place)
 
 	if obj == nil {
-		return "vse huevo"
+		log.Println("vse huevo")
 	}
-	log.Println("333")
 
-	// myPlace = obj.(*Place)
-	// // myPlace := Place{}
-	// // err = dbmap.SelectOne(&myPlace, "select * from posts where post_id=$1", myplaceparams["id"])
-	// // checkErr(err, "SelectOne failed")
-	// // b, err := json.Marshal(myPlace)
 	if err != nil {
 		log.Fatal(err)
 	}
-	log.Println("444")
 
-	myPlace.Description = "sdfgsdgfdsgfsdf"
-	log.Println("555")
-
-	return myPlace.Description
+	b, err := json.Marshal(myPlace)
+	if err != nil {
+		log.Fatal(err)
+	}
+	return b
 }
 func getHistoryList() string {
 	return "getHistoryList "
