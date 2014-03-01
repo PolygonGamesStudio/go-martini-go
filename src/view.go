@@ -10,6 +10,7 @@ import (
 )
 
 // func initDb() *gorp.DbMap {
+// TODO: вынести работу с базой из view
 func initDb() *gorp.DbMap {
 	// connect to db using standard Go database/sql API
 	// use whatever database/sql driver you wish
