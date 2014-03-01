@@ -23,8 +23,22 @@ func getRouteDetail(params martini.Params) []byte {
 func getFavoritesList() string {
 	return "getFavoritsList "
 }
-func getPlaceDetail() string {
-	return "getPlaceDetail "
+
+var (
+	myPlace Place
+)
+
+func getPlaceDetail(params martini.Params) []byte {
+	myPlace, err := dbmap.Get(Place{}, params["id"])
+
+	// myPlace := Place{}
+	// err = dbmap.SelectOne(&myPlace, "select * from posts where post_id=$1", myplaceparams["id"])
+	// checkErr(err, "SelectOne failed")
+	b, err := json.Marshal(myPlace)
+	if err != nil {
+		log.Fatal(err)
+	}
+	return b
 }
 func getHistoryList() string {
 	return "getHistoryList "

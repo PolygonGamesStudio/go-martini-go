@@ -9,13 +9,13 @@ import (
 )
 
 var (
-	Dbm *gorp.DbMap
+	dbmap *gorp.DbMap
 )
 
 func main() {
 	m := martini.Classic()
 
-	m.Get("/place", getPlaceDetail)
+	m.Get("/place/:id", getPlaceDetail)
 	m.Get("/favorites", getFavoritesList)
 	m.Get("/route/:id", getRouteDetail)
 	m.Get("/history/", getHistoryList)
