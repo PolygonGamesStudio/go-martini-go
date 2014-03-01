@@ -14,6 +14,7 @@ $ export PATH=$PATH:$GOPATH/bin
 ```
 $ go get github.com/codegangsta/martini
 $ go get github.com/coopernurse/gorp
+$ go get github.com/lib/pq
 ```
 
 **run**
