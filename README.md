@@ -20,3 +20,12 @@ $ go get github.com/coopernurse/gorp
 ```
 $ go run src/server.go src/view.go
 ```
+
+Настройка БД
+=============
+
+*Все команды выполнять от суперпользователя:*
+```
+$ sudo su
+```
+Полный текст смотри в http://hexvolt.blogspot.ru/2012/11/postgresql-91-ubuntu-1204.html
