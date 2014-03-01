@@ -1,10 +1,46 @@
 package main
 
 import (
+	"database/sql"
 	"encoding/json"
 	"github.com/codegangsta/martini"
+	"github.com/coopernurse/gorp"
+	_ "github.com/lib/pq"
 	"log"
 )
+
+// func initDb() *gorp.DbMap {
+func initDb() *gorp.DbMap {
+	// connect to db using standard Go database/sql API
+	// use whatever database/sql driver you wish
+	db, err := sql.Open("postgres", "user=postgres dbname=testdb host=localhost password=maxim321 sslmode=disable")
+	checkErr(err, "sql.Open failed")
+
+	// construct a gorp DbMap
+	dbmap := &gorp.DbMap{Db: db, Dialect: gorp.PostgresDialect{}}
+
+	// add a table, setting the table name to 'posts' and
+	// specifying that the Id property is an auto incrementing PK
+	dbmap.AddTableWithName(Creator{}, "creators").SetKeys(true, "Id")
+	dbmap.AddTableWithName(User{}, "users").SetKeys(true, "Id")
+	dbmap.AddTableWithName(RouteNodes{}, "routeNodes").SetKeys(true, "Id")
+	dbmap.AddTableWithName(Category{}, "categories").SetKeys(true, "Id")
+	dbmap.AddTableWithName(Place{}, "places").SetKeys(true, "Id")
+	dbmap.AddTableWithName(UserPlaceMTM{}, "userPlacesMTM")
+
+	// create the table. in a production system you'd generally
+	// use a migration tool, or create the tables via scripts
+	err = dbmap.CreateTablesIfNotExists()
+	checkErr(err, "Create tables failed")
+
+	return dbmap
+}
+
+func checkErr(err error, msg string) {
+	if err != nil {
+		log.Fatalln(msg, err)
+	}
+}
 
 func getRouteDetail(params martini.Params) []byte {
 	type Message struct {
@@ -24,21 +60,35 @@ func getFavoritesList() string {
 	return "getFavoritsList "
 }
 
-var (
-	myPlace Place
-)
+func getPlaceDetail(params martini.Params) string {
+	dbmap := initDb()
+	defer dbmap.Db.Close()
+	myPlace := Place{}
+	log.Println("111")
 
-func getPlaceDetail(params martini.Params) []byte {
-	myPlace, err := dbmap.Get(Place{}, params["id"])
+	// myPlace, err := dbmap.Get(Place{}, params["id"])
+	obj, err := dbmap.Get(myPlace, 1)
+	log.Println("222")
 
-	// myPlace := Place{}
-	// err = dbmap.SelectOne(&myPlace, "select * from posts where post_id=$1", myplaceparams["id"])
-	// checkErr(err, "SelectOne failed")
-	b, err := json.Marshal(myPlace)
+	if obj == nil {
+		return "vse huevo"
+	}
+	log.Println("333")
+
+	// myPlace = obj.(*Place)
+	// // myPlace := Place{}
+	// // err = dbmap.SelectOne(&myPlace, "select * from posts where post_id=$1", myplaceparams["id"])
+	// // checkErr(err, "SelectOne failed")
+	// // b, err := json.Marshal(myPlace)
 	if err != nil {
 		log.Fatal(err)
 	}
-	return b
+	log.Println("444")
+
+	myPlace.Description = "sdfgsdgfdsgfsdf"
+	log.Println("555")
+
+	return myPlace.Description
 }
 func getHistoryList() string {
 	return "getHistoryList "
