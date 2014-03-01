@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+mkdir ./go
+echo "mkdir ./go"
+mkdir ./go/bin
+echo "./go/bin"
+export GOPATH=go
+export PATH=$PATH:$GOPATH/bin
+go get github.com/codegangsta/martini
+go get github.com/coopernurse/gorp
