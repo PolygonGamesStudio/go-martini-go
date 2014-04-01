@@ -19,7 +19,12 @@ $ go get github.com/lib/pq
 
 **run**
 ```
-$ go run src/server.go src/view.go
+$ su postgres
+$ pg_ctl start
+```
+отдельно:
+```
+$ go run src/server.go src/view.go src/model.go
 ```
 
 Настройка БД
