@@ -109,6 +109,7 @@ func getHistoryList(params martini.Params) []byte {
 }
 
 //TODO:привести вывод ошибок и возврат ошибок к нормальному виду
+//TODO:привести ответ сервера к нормальному виду
 func postRatioDetail(r *http.Request) string {
 	dbmap := initDb()
 	defer dbmap.Db.Close()
@@ -159,11 +160,49 @@ func getPostDataRatio(r *http.Request) *UserPlaceMTM {
 func deleteUser(params martini.Params) string {
 	return "deleteUser " + params["id"]
 }
+
 func putRation() string {
 	return "putRation "
 }
-func putUser() string {
-	return ""
+
+func putUser(r *http.Request) string {
+	dbmap := initDb()
+	defer dbmap.Db.Close()
+
+	user := getPutDataUser(r)
+	id := &user.Id
+
+	log.Println("userid: ", id)
+
+	object,err := dbmap.Get(User{}, id)
+
+	checkErr(err, "can't get updating user")
+
+	object = user
+	if user != nil {
+		count, err := dbmap.Update(object)
+		checkErr(err, "can't update user's data")
+		return "updated " + strconv.FormatInt(count, 10) + " rows"
+	} else{
+		log.Println("can't get data from request")
+	}
+
+
+	return "putUser"
+}
+func getPutDataUser(r *http.Request) *User {
+	idString, login, password := r.FormValue("id"), r.FormValue("login"), r.FormValue("password") 
+	id, err := strconv.Atoi(idString)
+	if err != nil {
+		log.Println("can't convert userid to integer")
+		return nil
+	}
+
+	return &User{
+		Id: int64(id),
+		Login: login,
+		Password: password,
+	}
 }
 
 func getLogout(params martini.Params) string {

@@ -17,7 +17,7 @@ func main() {
 	m.Delete("/user/:id", deleteUser)
 
 	m.Put("/ratio/:id", putRation)
-	m.Put("/user/:id", putUser)
+	m.Put("/user", putUser)
 
 	m.Get("/logout", getLogout)
 	m.Post("/login", getLogin)

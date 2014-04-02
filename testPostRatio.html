@@ -24,6 +24,10 @@
 
 good tests:
 curl -H POST -d "userid=1&placeid=1&ratio=2&feedback=sdfasf" localhost:3000/ratio/
+------------------
+curl -H PUT -d "userid=1&login=aza&password=qwerty" localhost:3000/user
+
+
 
 bad tests:
 curl -H POST -d "userid=1&placeid=2&ratio=aa&feedback=sdfasf" localhost:3000/ratio/
