@@ -35,3 +35,8 @@ $ go run src/server.go src/view.go src/model.go
 $ sudo su
 ```
 Полный текст смотри в http://hexvolt.blogspot.ru/2012/11/postgresql-91-ubuntu-1204.html
+
+Для работы с постгресом используем pgadmin3
+```
+$ sudo apt-get install pgadmin3
+```

@@ -82,8 +82,27 @@ func getPlaceDetail(params martini.Params) []byte {
 	}
 	return b
 }
-func getHistoryList() string {
-	return "getHistoryList "
+func getHistoryList(params martini.Params) []byte {
+	dbmap := initDb()
+	defer dbmap.Db.Close()
+
+	var objects []UserPlaceMTM
+	_, err := dbmap.Select(&objects, "Select * from userPlacesMTM where userid=$1", params["id"])
+
+
+	b, err := json.Marshal(objects)
+
+	if objects == nil {
+		log.Println("vse huevo")
+	}
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	checkErr(err, "Select failed")
+	
+	return b
 }
 func postRatioDetail(params martini.Params) string {
 	return "postRatioDetail " + params["id"]

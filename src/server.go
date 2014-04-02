@@ -10,7 +10,7 @@ func main() {
 	m.Get("/place/:id", getPlaceDetail)
 	m.Get("/favorites", getFavoritesList)
 	m.Get("/route/:id", getRouteDetail)
-	m.Get("/history/", getHistoryList)
+	m.Get("/history/:id", getHistoryList)
 
 	m.Post("/ratio/:id", postRatioDetail)
 
