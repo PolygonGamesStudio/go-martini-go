@@ -12,7 +12,7 @@ func main() {
 	m.Get("/route/:id", getRouteDetail)
 	m.Get("/history/:id", getHistoryList)
 
-	m.Post("/ratio/:id", postRatioDetail)
+	m.Post("/ratio/", postRatioDetail)
 
 	m.Delete("/user/:id", deleteUser)
 

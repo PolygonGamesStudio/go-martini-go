@@ -7,6 +7,8 @@ import (
 	"github.com/coopernurse/gorp"
 	_ "github.com/lib/pq"
 	"log"
+	"strconv"
+	"net/http"
 )
 
 // func initDb() *gorp.DbMap {
@@ -57,7 +59,7 @@ func getRouteDetail(params martini.Params) []byte {
 	}
 	return b
 }
-func getFavoritesList() string {
+func getFavoritesList() string {	//stars >= 4
 	return "getFavoritsList "
 }
 
@@ -82,6 +84,7 @@ func getPlaceDetail(params martini.Params) []byte {
 	}
 	return b
 }
+
 func getHistoryList(params martini.Params) []byte {
 	dbmap := initDb()
 	defer dbmap.Db.Close()
@@ -104,9 +107,55 @@ func getHistoryList(params martini.Params) []byte {
 	
 	return b
 }
-func postRatioDetail(params martini.Params) string {
-	return "postRatioDetail " + params["id"]
+
+//TODO:привести вывод ошибок и возврат ошибок к нормальному виду
+func postRatioDetail(r *http.Request) string {
+	dbmap := initDb()
+	defer dbmap.Db.Close()
+
+	userPlacesMTM := getPostDataRatio(r)
+
+	if userPlacesMTM != nil{
+		err := dbmap.Insert(userPlacesMTM)
+		checkErr(err, "can't insert data to userPlacesMTM")
+		if err != nil {
+			return "error\n"
+		} else{
+			return "successful inserted\n"
+		}
+	} else {
+		log.Println("can't get data from request")
+		return "error\n"
+	}
+		
 }
+func getPostDataRatio(r *http.Request) *UserPlaceMTM {
+	useridString, placeidString, ratioString, feedback := r.FormValue("userid"), r.FormValue("placeid"), r.FormValue("ratio"), r.FormValue("feedback")
+	
+	userid, err := strconv.Atoi(useridString)
+	if err != nil {
+		log.Println("can't convert userid to integer")
+		return nil
+	}
+	placeid, err := strconv.Atoi(placeidString)
+	if err != nil {
+		log.Println("can't convert placeid to integer")
+		return nil
+	}
+	ratio, err := strconv.Atoi(ratioString)
+	if err != nil {
+		log.Println("can't convert ratio to integer")
+		return nil
+	}
+
+	return &UserPlaceMTM{
+		UserId:  int64(userid),
+		PlaceId: int64(placeid),
+		Ratio:  int8(ratio),
+		Feedback: feedback,
+	}
+}
+
 func deleteUser(params martini.Params) string {
 	return "deleteUser " + params["id"]
 }
@@ -114,7 +163,7 @@ func putRation() string {
 	return "putRation "
 }
 func putUser() string {
-	return "putUser "
+	return ""
 }
 
 func getLogout(params martini.Params) string {
@@ -123,3 +172,5 @@ func getLogout(params martini.Params) string {
 func getLogin(params martini.Params) string {
 	return "getLogin " + params["id"]
 }
+
+

@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+<head>
+</head>
+<body>
+	<form method="POST" action="localhost:3000/ratio">
+
+	  <label>userid</label>
+	  <input name="userid">
+
+	  <label>placeid</label>
+	  <input name="placeid">
+
+	  <label>ratio</label>
+	  <input name="ratio">
+
+	  <label>feedback</label>
+	  <input name="feedback">
+
+	  <input type="submit">
+	</form>
+</body>
+</html>
+
+good tests:
+curl -H POST -d "userid=1&placeid=1&ratio=2&feedback=sdfasf" localhost:3000/ratio/
+
+bad tests:
+curl -H POST -d "userid=1&placeid=2&ratio=aa&feedback=sdfasf" localhost:3000/ratio/
