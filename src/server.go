@@ -8,7 +8,7 @@ func main() {
 	m := martini.Classic()
 
 	m.Get("/place/:id", getPlaceDetail)
-	m.Get("/favorites", getFavoritesList)
+	m.Get("/favorites/:id", getFavoritesList)
 	m.Get("/route/:id", getRouteDetail)
 	m.Get("/history/:id", getHistoryList)
 
@@ -17,7 +17,7 @@ func main() {
 	m.Delete("/user/:id", deleteUser)
 
 	m.Put("/ratio/:id", putRation)
-	m.Put("/user", putUser)
+	m.Put("/user/", putUser)
 
 	m.Get("/logout", getLogout)
 	m.Post("/login", getLogin)

@@ -40,3 +40,18 @@ $ sudo su
 ```
 $ sudo apt-get install pgadmin3
 ```
+
+не забываем добавить поле isfavorite в userPlacesMTM
+
+**Docs**
+https://github.com/go-martini/martini
+https://github.com/coopernurse/gorp
+https://github.com/PuerkitoBio/martini-api-example/blob/master/api.go
+https://github.com/PuerkitoBio/martini-api-example/blob/master/server.go
+
+======
+FAQ:
+при изменении структуры таблиц надо удалять все данные, потому что у них в новом поле стоит nil, а наш gorp на этом валится нах
+
+вставлять удобно можно во все таблицы кроме MTM - там делаем скрипт инсерта
+в остальных можно сделать выборку и менять прям в таблице

@@ -42,4 +42,5 @@ type UserPlaceMTM struct {
 	PlaceId  int64
 	Ratio    int8
 	Feedback string
+	IsFavorite bool
 }

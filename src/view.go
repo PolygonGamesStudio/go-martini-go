@@ -45,6 +45,7 @@ func checkErr(err error, msg string) {
 	}
 }
 
+
 func getRouteDetail(params martini.Params) []byte {
 	type Message struct {
 		Id   string
@@ -59,8 +60,21 @@ func getRouteDetail(params martini.Params) []byte {
 	}
 	return b
 }
-func getFavoritesList() string {	//stars >= 4
-	return "getFavoritsList "
+
+func getFavoritesList(params martini.Params) []byte {
+	dbmap := initDb()
+	defer dbmap.Db.Close()
+
+	log.Println("11")
+
+	var objects []UserPlaceMTM
+	_, err := dbmap.Select(&objects, "Select * from userPlacesMTM where userid=$1", params["id"])
+	checkErr(err, "Select favorites failed")
+
+	b, err := json.Marshal(objects)
+	checkErr(err, "json.Marshal failed")
+
+	return b
 }
 
 func getPlaceDetail(params martini.Params) []byte {
@@ -131,7 +145,7 @@ func postRatioDetail(r *http.Request) string {
 		
 }
 func getPostDataRatio(r *http.Request) *UserPlaceMTM {
-	useridString, placeidString, ratioString, feedback := r.FormValue("userid"), r.FormValue("placeid"), r.FormValue("ratio"), r.FormValue("feedback")
+	useridString, placeidString, ratioString, feedback, isfavoriteString := r.FormValue("userid"), r.FormValue("placeid"), r.FormValue("ratio"), r.FormValue("feedback"), r.FormValue("isfavorite")
 	
 	userid, err := strconv.Atoi(useridString)
 	if err != nil {
@@ -148,17 +162,32 @@ func getPostDataRatio(r *http.Request) *UserPlaceMTM {
 		log.Println("can't convert ratio to integer")
 		return nil
 	}
+	isfavorite, err := strconv.ParseBool(isfavoriteString)
+	if err != nil {
+		log.Println("can't isfavorite ratio to bool")
+		return nil
+	}
 
 	return &UserPlaceMTM{
 		UserId:  int64(userid),
 		PlaceId: int64(placeid),
 		Ratio:  int8(ratio),
 		Feedback: feedback,
+		IsFavorite: isfavorite,
 	}
 }
 
 func deleteUser(params martini.Params) string {
-	return "deleteUser " + params["id"]
+	dbmap := initDb()
+	defer dbmap.Db.Close()
+	
+	obj, err := dbmap.Get(User{}, params["id"])
+	checkErr(err, "can't get user by id")
+
+	count, err := dbmap.Delete(obj)
+	checkErr(err, "can't delete user")
+
+	return "deleteUser " + string(count) + " rows succesfull"	//FIXME to string
 }
 
 func putRation() string {
