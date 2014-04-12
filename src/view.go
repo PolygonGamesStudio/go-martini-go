@@ -122,6 +122,13 @@ func getHistoryList(params martini.Params) []byte {
 	return b
 }
 
+func getUserDetails(params martini.Params) []byte {
+	dbmap := initDb()
+	defer dbmap.Db.Close()
+
+	
+}
+
 //TODO:привести вывод ошибок и возврат ошибок к нормальному виду
 //TODO:привести ответ сервера к нормальному виду
 func postRatioDetail(r *http.Request) string {
