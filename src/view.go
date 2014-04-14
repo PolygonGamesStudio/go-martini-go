@@ -122,11 +122,31 @@ func getHistoryList(params martini.Params) []byte {
 	return b
 }
 
-func getUserDetails(params martini.Params) []byte {
+func getUserDetails(params martini.Params) string {
+	/*dbmap := initDb()
+	defer dbmap.Db.Close()*/
+	return "userDetails"
+	
+}
+
+func getAllCategories() []byte {
 	dbmap := initDb()
 	defer dbmap.Db.Close()
 
-	
+	var objects []Category
+	_, err := dbmap.Select(&objects, "Select * from categories")
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	b, err := json.Marshal(objects)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return b
 }
 
 //TODO:привести вывод ошибок и возврат ошибок к нормальному виду

@@ -12,6 +12,7 @@ func main() {
 	m.Get("/route/:id", getRouteDetail)
 	m.Get("/history/:id", getHistoryList)
 	m.Get("/user/:id", getUserDetails)
+	m.Get("/categories/", getAllCategories)
 
 	m.Post("/ratio/", postRatioDetail)
 
