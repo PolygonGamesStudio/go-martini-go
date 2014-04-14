@@ -23,6 +23,9 @@ type User struct {
 	Id       int64
 	Login    string
 	Password string
+	Photo string
+	Kilometers int64
+	TasksCount int64
 }
 
 type RouteNodes struct {

@@ -122,10 +122,23 @@ func getHistoryList(params martini.Params) []byte {
 	return b
 }
 
-func getUserDetails(params martini.Params) string {
-	/*dbmap := initDb()
-	defer dbmap.Db.Close()*/
-	return "userDetails"
+func getUserDetails(params martini.Params) []byte {
+	dbmap := initDb()
+	defer dbmap.Db.Close()
+
+	obj, err := dbmap.Get(User{}, params["id"])
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	b, err := json.Marshal(obj)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return b
 	
 }
 
@@ -246,7 +259,7 @@ func putUser(r *http.Request) string {
 
 	return "putUser"
 }
-func getPutDataUser(r *http.Request) *User {
+func getPutDataUser(r *http.Request) *User {//сделать так, чтобы обязательным был только id, остальные параметры не обязательны
 	idString, login, password := r.FormValue("id"), r.FormValue("login"), r.FormValue("password") 
 	id, err := strconv.Atoi(idString)
 	if err != nil {
@@ -258,6 +271,9 @@ func getPutDataUser(r *http.Request) *User {
 		Id: int64(id),
 		Login: login,
 		Password: password,
+		Photo: "",		//FIXME
+		Kilometers: int64(42),	//FIXME
+		TasksCount: int64(42),	//FIXME
 	}
 }
 
